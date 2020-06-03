@@ -1,8 +1,13 @@
-PFin app - Personal Finance
+**PFin app - Personal Finance**
 
-Server side:
-
+**Server side:**
 - NodeJS v10.15.1
 - MongoDB
 
-Copy right: DTHieu1
+**Config:** 
+- start : server.js
+
+**Run:**
+`npm run start`
+
+************ **Copy right: DTHieu1** **********
