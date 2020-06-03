@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PFin SMS</title>
+    <link href="/assets/main.css" rel="stylesheet"/>
+    <script src="/assets/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="note">Hiện tại đã cho phép phân tích nhiều tin nhắn cùng lúc(dưới dạng mảng), nhưng ở đây chỉ phân tích 1 tin nhắn</div>
+        <div class="container-select">
+            <select id="cboBank">
+                <option value="BIDV">BIDV</option>
+                <option value="ACB">ACB</option>
+                <option value="VCB">Vietcombank</option>
+                <option value="STB">Sacombank</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <textarea name="txtInput" id="txtInput"></textarea>
+            <div class="gr-btn">
+                <button type="button" class="btn-demo" id="btnDemo">Get demo</button>
+                </br>
+                <button type="button" class="btn-submit" id="btnSubmit">Detect</button>
+            </div>
+        </div>
+        <div class="value-area" id="txtValue"></div>
+    </div>
+
+    <script src="/assets/main.js"></script>
+</body>
+</html>
