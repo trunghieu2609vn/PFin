@@ -1,9 +1,9 @@
 const util = require('util');
-const mongodb = require('../base/dbbase');
 const detect = require('../../business/detect');
 const SMSModel = require('../../entities/SMS');
 const utilPfin = require('../../common/util_pfin');
-var _userid = "dthieu1302";
+const BankModel = require('../../entities/Bank');
+
 
 //mặc định theo userID
 class SMSController {
@@ -16,11 +16,13 @@ class SMSController {
      * @param {*} res 
      */
     getAllSMS(req, res){
-        let querry = SMSModel.find({userID: _userid});
+        let userid = req.body.userID, 
+            querry = SMSModel.find({userID: userid}).sort({creDate: "desc"});
+
         querry.exec((err, docs) => {
             if(err){
-                console.log(err);
-                return [];
+                utilPfin.handlerLog(err, req);
+                docs = [];
             }
             res.json(docs);
         });
@@ -33,11 +35,13 @@ class SMSController {
      */
     getSMSByBankCode(req, res){
         let bankCode = req.body.bankCode,
-            querry = SMSModel.find({bankCode: bankCode, userID: _userid});
+            userid = req.body.userID,
+            querry = SMSModel.find({bankCode: bankCode, userID: userid}).sort({creDate: "desc"});
+
         querry.exec((err, docs) => {
             if(err){
-                console.log(err);
-                return [];
+                utilPfin.handlerLog(err, req);
+                docs = [];
             }
             res.json(docs);
         });
@@ -52,8 +56,8 @@ class SMSController {
         let id = req.body.id;
         SMSModel.findById(id).exec((err, docs) => {
             if(err){
-                console.log(err);
-                return [];
+                utilPfin.handlerLog(err, req);
+                docs = [];
             }
             res.json(docs);
         });
@@ -65,25 +69,34 @@ class SMSController {
      * @param {*} res 
      */
     detectSMS(req, res) {
-        let smsList = req.body.sms;
-        
+        let smsList = req.body.sms, 
+            userID = req.body.userID;
         try {
             //Kiểm tra có phải là mảng không
-            if(smsList && Array.isArray(smsList)){
-                let lstValue = detect.detectList(smsList);
+            if(smsList && Array.isArray(smsList) && userID){
+                let lstValue = detect.detectList(smsList, userID);
                 if (lstValue !== null && lstValue.length > 0) {
-                    //Thực hiện lưu vào db Todo
+                    //Thực hiện lưu vào db
                     SMSModel.insertMany(lstValue).then((docs) => {
                         res.json(docs);
                     }).catch((err) => {
+                        utilPfin.handlerLog(err, req);
                         res.json([]);
-                    })
+                    });
+
+                    //Xử lý tin danh sách tin nhắn lấy ra tin nhắn cuối cùng theo từng ngân hàng và cập nhật vào collection bank
+                    lstValue.filter((item) => {
+                        if(item["IsNewest"] === true){
+                            BankModel.updateOne({userID : userID, bankCode: item["bankCode"]}, {blance : item["blance"]}, (err, raw) => {
+                                utilPfin.handlerLog(("err : " + err + " || raw : " + raw), {url : "updateBank blance sms"});
+                            });
+                        }
+                    });
                 }
             }
         } catch (err) {
             utilPfin.handlerLog(err, req);
         }
-        
     }
 
 }

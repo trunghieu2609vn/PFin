@@ -82,11 +82,6 @@ class Detect {
         if(decObject[key.Time] === undefined && decObject[key.Minute] && decObject[key.Date]){
             decObject[key.Time] = decObject[key.Minute] + " " + decObject[key.Date];
         }
-        
-        let a = key.time.time;
-
-        //Tạm fix theo UserID
-        decObject["userID"] = "dthieu1302";
 
         return decObject;
     }
@@ -104,14 +99,19 @@ class Detect {
      * Phân tích danh sách tin nhắn
      * @param {*} smsList 
      */
-    detectList(smsList){
+    detectList(smsList, userID){
         let me = this,
             cfig = smsConfig.SMSObject,
             lstRes = [];
-        if(Array.isArray(smsList)){
+        if(Array.isArray(smsList) && userID){
             for (let i = 0; i < smsList.length; i++) {
                 let item = smsList[i],
                     result = me.detectSMS(item[cfig.Content], item[cfig.BankCode]);
+                    //Kiểm tra xem có phải là tin nhắn mới nhất không
+                    if(item[cfig.IsNewest]){
+                        result[cfig.IsNewest] = true;
+                    }
+                    result["userID"] = userID;
                 lstRes.push(result);
             }
             return lstRes;
@@ -121,8 +121,3 @@ class Detect {
 }
 var detect = new Detect();
 module.exports = detect;
-
-
-// console.log(util.isNumber(-100));
-// console.log(util.isNumber("dfdf"));
-// console.log(util.isNumber("df69df"));

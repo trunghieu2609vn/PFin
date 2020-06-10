@@ -9,6 +9,7 @@ let smsSchema = new mongoose.Schema({
     message: String,
     time: String, //Thời gian thay đổi (tính đến ngày)
     content: String, //Nội dung toàn bộ tin nhắn
+    creDate: { type:Date, default:Date.now },
     userID: String,
   });
 

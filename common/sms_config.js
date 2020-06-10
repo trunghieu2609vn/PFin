@@ -3,7 +3,8 @@ var PFin = PFin || {};
 //Cấu hình object tin nhắn gửi từ client
 PFin.SMSObject = {
     Content: "Content", //nội dung tin nhắn
-    BankCode: "BankCode" //Mã ngân hàng
+    BankCode: "BankCode", //Mã ngân hàng
+    IsNewest: "IsNewest" //Đánh dấu là tin nhắn mới nhất theo mỗi ngân hàng
 }
 
 //Cấu hình ngân hàng
