@@ -33,7 +33,6 @@ class BankController{
         if(bank && typeof bank === "object" && bank["userID"] && bank["bankCode"]){
             //Xử lý dữ liệu mặc định khi thêm mới ngân hàng
             bank["blance"] = Number(bank["blance"]) || 0;
-            bank["creDate"] = Date.now;
             BankModel.insertMany([bank]).then((docs) => {
                 res.json(docs);
             }).catch((err) => {
@@ -50,9 +49,11 @@ class BankController{
      * @param {*} res 
      */
     updateBank(req, res){
-        let bank = req.body.bank;
-        if(bank && typeof bank === "object" && bank["_id"]){
-            BankModel.updateOne({_id: bank["_id"]}, bank, (err, raw) => {
+        let bank = req.body.bank,
+            bankId = bank["_id"];
+        if(bank && typeof bank === "object" && bankId){
+            // delete bank["_id"];
+            BankModel.updateOne({_id: bankId}, bank, (err, raw) => {
                 if(err){
                     utilPfin.handlerLog(err, req);
                     res.json({message : "Đã có lỗi xảy ra."});

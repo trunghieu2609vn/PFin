@@ -87,7 +87,10 @@ class SMSController {
                     //Xử lý tin danh sách tin nhắn lấy ra tin nhắn cuối cùng theo từng ngân hàng và cập nhật vào collection bank
                     lstValue.filter((item) => {
                         if(item["IsNewest"] === true){
-                            BankModel.updateOne({userID : userID, bankCode: item["bankCode"]}, {blance : item["blance"]}, (err, raw) => {
+                            BankModel.updateOne({userID : userID, bankCode: item["bankCode"]}, {
+                                blance : item["blance"],
+                                lastTimeUpdate: new Date()
+                            }, (err, raw) => {
                                 utilPfin.handlerLog(("err : " + err + " || raw : " + raw), {url : "updateBank blance sms"});
                             });
                         }
