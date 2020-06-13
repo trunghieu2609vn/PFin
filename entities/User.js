@@ -1,26 +1,30 @@
 let mongoose = require('mongoose');
 let validator = require('validator');
 let userSchema = new mongoose.Schema({
-    userID: mongoose.Schema.Types.ObjectId,
+    userID: {
+      type: mongoose.Schema.Types.ObjectId,
+      auto: true
+    },
     firstName: String,
     lastName: String,
     fullName: String,
     userName: {
         type: String,
+        unique: true,
         require: true,
     },
     password: {
         type: String,
         require: true,
     },
-    dateOfBirth: Date,
+    dateOfBirth: String,
     email: {
       type: String,
       validate: (value) => {
         return validator.isEmail(value);
       }
     }, 
-    creDate: { type:Date, default: Date.now }
+    creDate: { type:Date, default: new Date() }
   });
 
 module.exports = mongoose.model('User', userSchema)

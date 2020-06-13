@@ -13,4 +13,11 @@ module.exports = function(app) {
     app.route('/bank/updatebank').post(bankController.updateBank);
     app.route('/bank/deletebank').post(bankController.deleteBank);
     
+
+    let userController = require('./controller/UserController');
+    app.route('/user/getUserByUsernamePassword').get(userController.getUserByUsernamePassword);
+    app.route('/user/checkExitsUsername').get(userController.checkExitsUsername);
+    app.route('/user/insertUser').post(userController.insertUser);
+    app.route('/user/updateUser').post(userController.updateUser);
+
 };

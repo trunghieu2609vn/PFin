@@ -5,7 +5,8 @@ let validator = require('validator');
 let financeSchema = new mongoose.Schema({
     userID: String,
     blance: Number, //số tiền hiện tai
-    lastTimeUpdate: { type:Date, default: Date.now }, //Thời ian cập nhật cuối cùng
+    bankTotalBlance: Number,
+    lastTimeUpdate: { type:Date, default: Date.now }, //Thời gian cập nhật cuối cùng
     creDate: { type:Date, default: Date.now }
   });
 
