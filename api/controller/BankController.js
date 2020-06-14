@@ -57,6 +57,7 @@ class BankController{
                 if(err){
                     utilPfin.handlerLog(err, req);
                     res.json({message : "Đã có lỗi xảy ra."});
+                    return false;
                 }
                 res.json({message : "Cập nhật thành công."});
             });

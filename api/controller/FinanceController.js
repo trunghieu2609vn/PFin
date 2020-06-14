@@ -26,6 +26,7 @@ class FinanceController{
                         err: err
                     }
                 });
+                return false;
             }
             res.json(doc);
         });
@@ -69,6 +70,7 @@ class FinanceController{
                 if(err){
                     utilPfin.handlerLog(err, req);
                     res.json({message : "Đã có lỗi xảy ra."});
+                    return false;
                 }
                 res.json({message : "Cập nhật thành công."});
             });

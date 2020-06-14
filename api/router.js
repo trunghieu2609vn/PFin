@@ -6,6 +6,7 @@ module.exports = function(app) {
     app.route('/sms/detectsms').post(smsController.detectSMS);
     app.route('/sms/getsmsbyid').post(smsController.getSMSByID);
     app.route('/sms/getsmsbybankcode').post(smsController.getSMSByBankCode);
+    app.route('/sms/insertSMSList').post(smsController.insertSMSList);
 
     let bankController = require('./controller/BankController');
     app.route('/bank/getallbank').get(bankController.getAllBank);
@@ -24,5 +25,9 @@ module.exports = function(app) {
     app.route('/finance/getFinanceUser').get(financeController.getFinanceUser);
     app.route('/finance/insertFinanceUser').post(financeController.insertFinanceUser);
     app.route('/finance/updateFinaneUser').post(financeController.updateFinaneUser);
+
+    let feedbackController = require('./controller/FeedbackController');
+    app.route('/feedback/getAllFeedback').get(feedbackController.getAllFeedback);
+    app.route('/feedback/insertFeedback').post(feedbackController.insertFeedback);
 
 };

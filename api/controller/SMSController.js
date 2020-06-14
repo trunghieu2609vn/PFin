@@ -64,6 +64,49 @@ class SMSController {
     }
 
     /**
+     * Thực hiện thêm mới tin nhắn vào DB theo dạng đã dudợc detect sẵn
+     * @param {*} req 
+     * @param {*} res 
+     */
+    insertSMSList(req, res){
+        let smsList = req.body.sms;
+        try{
+            if(smsList){
+                let lstValue = [];
+
+                if(typeof smsList === "object"){
+                    lstValue.push(smsList);
+                }else if(Array.isArray(smsList)){
+                    lstValue = smsList;
+                }else{
+                    res.json({message : "Dữ liệu chỉ nhận object hoặc array"})
+                    return false;
+                }
+
+                //Thực hiện lưu vào db
+                SMSModel.insertMany(lstValue).then((docs) => {
+                    res.json(docs);
+                }).catch((err) => {
+                    utilPfin.handlerLog(err, req);
+                    res.json([]);
+                });
+
+                //Xử lý tin danh sách tin nhắn lấy ra tin nhắn cuối cùng theo từng ngân hàng và cập nhật vào collection bank
+                lstValue.filter((item) => {
+                    if(item["IsNewest"] === true){
+                        BankModel.updateOne({userID : item["userID"], bankCode: item["bankCode"]}, {
+                            blance : item["blance"]
+                        }, (err, raw) => {
+                            utilPfin.handlerLog(("err : " + err + " || raw : " + raw), {url : "updateBank blance sms"});
+                        });
+                    }
+                });
+            }
+        }catch{
+            utilPfin.handlerLog(err, req);
+        }
+    }
+    /**
      * api xử lý tin nhắn, thực hiện lưu vào db
      * @param {*} req 
      * @param {*} res 
