@@ -20,4 +20,9 @@ module.exports = function(app) {
     app.route('/user/insertUser').post(userController.insertUser);
     app.route('/user/updateUser').post(userController.updateUser);
 
+    let financeController = require('./controller/FinanceController');
+    app.route('/finance/getFinanceUser').get(financeController.getFinanceUser);
+    app.route('/finance/insertFinanceUser').post(financeController.insertFinanceUser);
+    app.route('/finance/updateFinaneUser').post(financeController.updateFinaneUser);
+
 };
