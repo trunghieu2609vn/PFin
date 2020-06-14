@@ -6,8 +6,13 @@ let financeSchema = new mongoose.Schema({
     userID: String,
     blance: Number, //số tiền hiện tai
     bankTotalBlance: Number,
-    lastTimeUpdate: { type:Date, default: Date.now }, //Thời gian cập nhật cuối cùng
-    creDate: { type:Date, default: Date.now }
+    lastTimeUpdate: Date, //Thời gian cập nhật cuối cùng
+    creDate: Date
+  },{
+    timestamps: {
+      createdAt: "creDate",
+      updatedAt: "lastTimeUpdate"
+    }
   });
 
 module.exports = mongoose.model('Finance', financeSchema)

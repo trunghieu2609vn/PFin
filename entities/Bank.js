@@ -5,8 +5,14 @@ let bankSchema = new mongoose.Schema({
     blance: Number, //số tiền hiện theo từng tài khoản
     accountNumber: String,
     bankCode: String,
-    lastTimeUpdate: String, //Thời gian cập nhật cuối cùng
-    creDate: { type:Date, default: Date.now },
+    lastTimeUpdate: Date, //Thời gian cập nhật cuối cùng, tự động
+    creDate: Date,
+  },
+  {
+    timestamps: {
+      createdAt: "creDate",
+      updatedAt: "lastTimeUpdate"
+    }
   });
 
 module.exports = mongoose.model('Bank', bankSchema)

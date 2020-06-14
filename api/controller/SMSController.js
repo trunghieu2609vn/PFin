@@ -88,8 +88,7 @@ class SMSController {
                     lstValue.filter((item) => {
                         if(item["IsNewest"] === true){
                             BankModel.updateOne({userID : userID, bankCode: item["bankCode"]}, {
-                                blance : item["blance"],
-                                lastTimeUpdate: new Date()
+                                blance : item["blance"]
                             }, (err, raw) => {
                                 utilPfin.handlerLog(("err : " + err + " || raw : " + raw), {url : "updateBank blance sms"});
                             });

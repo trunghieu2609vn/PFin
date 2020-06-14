@@ -24,7 +24,11 @@ let userSchema = new mongoose.Schema({
         return validator.isEmail(value);
       }
     }, 
-    creDate: { type:Date, default: new Date() }
+    creDate: Date
+  },{
+    timestamps: {
+      createdAt: "creDate",
+    }
   });
 
 module.exports = mongoose.model('User', userSchema)
